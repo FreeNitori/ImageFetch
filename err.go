@@ -1,4 +1,4 @@
-package ImageFetch
+package imagefetch
 
 import "errors"
 

@@ -1,4 +1,4 @@
-package ImageFetch
+package imagefetch
 
 const Tags = "tags="
 const BaseURL = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&"

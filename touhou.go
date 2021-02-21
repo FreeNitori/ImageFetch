@@ -1,4 +1,4 @@
-package ImageFetch
+package imagefetch
 
 var Touhou = CharacterCollection{characters: []CharacterInfo{
 	{Color: 0xb50404, FriendlyName: "Reimu", SearchString: "Hakurei_Reimu"},
