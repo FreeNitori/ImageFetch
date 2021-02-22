@@ -1,6 +1,7 @@
 package imagefetch
 
-var Touhou = CharacterCollection{characters: []CharacterInfo{
+var Touhou = NewCollection(thCharacters)
+var thCharacters = []CharacterInfo{
 	{Color: 0xb50404, FriendlyName: "Reimu", SearchString: "Hakurei_Reimu"},
 	{Color: 0x42d4f4, FriendlyName: "Ran", SearchString: "Yakumo_Ran"},
 	{Color: 0xff8ade, FriendlyName: "Mystia", SearchString: "Mystia_Lorelei"},
@@ -104,7 +105,6 @@ var Touhou = CharacterCollection{characters: []CharacterInfo{
 	{Color: 0x42d4f4, FriendlyName: "Maribel", SearchString: "Maribel_Hearn"},
 	{Color: 0x5b0082, FriendlyName: "Byakuren", SearchString: "Hijiri_Byakuren"},
 	{Color: 0x5b9c66, FriendlyName: "Eiki", SearchString: "Shiki_Eiki"},
-	{Color: 0xe5ff, FriendlyName: "Vert", SearchString: "Cirno"},
 	{Color: 0xfb959e, FriendlyName: "Kasen", SearchString: "Ibaraki_Kasen"},
 	{Color: 0xff40d9, FriendlyName: "Yuyuko", SearchString: "Saigyouji_Yuyuko"},
 	{Color: 0x42d4f4, FriendlyName: "Clownpiece", SearchString: "Clownpiece"},
@@ -126,4 +126,4 @@ var Touhou = CharacterCollection{characters: []CharacterInfo{
 	{Color: 0x42d4f4, FriendlyName: "Akyuu", SearchString: "Hieda_No_Akyuu"},
 	{Color: 0x48cb5, FriendlyName: "Shion", SearchString: "Yorigami_Shion"},
 	{Color: 0x42d4f4, FriendlyName: "Elly", SearchString: "Elly"},
-}}
+}

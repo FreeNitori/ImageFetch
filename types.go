@@ -1,46 +1,13 @@
 package imagefetch
 
-import "encoding/xml"
-
-// BoardPosts represents an array of posts returned by the image board.
-type BoardPosts struct {
-	XMLName xml.Name    `xml:"posts"`
-	Posts   []BoardPost `xml:"post"`
-	Count   int         `xml:"count,attr"`
-	Offset  int         `xml:"offset,attr"`
-}
-
-// BoardPost represents a post on the image board.
-type BoardPost struct {
-	Height        int    `xml:"height,attr"`
-	Title         string `xml:"title,attr"`
-	Score         int    `xml:"score,attr"`
-	FileURL       string `xml:"file_url,attr"`
-	ParentID      int    `xml:"parent_id,attr"`
-	SampleURL     string `xml:"sample_url,attr"`
-	SampleWidth   int    `xml:"sample_width,attr"`
-	SampleHeight  int    `xml:"sample_height,attr"`
-	PreviewURL    string `xml:"preview_url,attr"`
-	Rating        string `xml:"rating,attr"`
-	Tags          string `xml:"tags,attr"`
-	ID            int    `xml:"id,attr"`
-	Width         int    `xml:"width,attr"`
-	Change        int    `xml:"change,attr"`
-	MD5           string `xml:"md5,attr"`
-	CreatorID     int    `xml:"creator_id,attr"`
-	HasChildren   bool   `xml:"has_children,attr"`
-	CreatedAt     string `xml:"created_at,attr"`
-	Status        string `xml:"status,attr"`
-	Source        string `xml:"source,attr"`
-	HasNotes      bool   `xml:"has_notes,attr"`
-	HasComments   bool   `xml:"has_comments,attr"`
-	PreviewWidth  int    `xml:"preview_width,attr"`
-	PreviewHeight int    `xml:"preview_height,attr"`
-}
+import "strings"
 
 // CharacterCollection represents a collection of character information.
 type CharacterCollection struct {
-	characters []CharacterInfo
+	characters        []CharacterInfo
+	reference         map[string]CharacterInfo
+	referenceLower    map[string]CharacterInfo
+	referenceFriendly map[string]CharacterInfo
 }
 
 // Characters returns a slice of all characters in this collection.
@@ -48,16 +15,36 @@ func (collection CharacterCollection) Characters() []CharacterInfo {
 	return collection.characters
 }
 
+// Character returns a CharacterInfo from search string if found.
+func (collection CharacterCollection) Character(search string, caseSensitive bool) (character CharacterInfo, ok bool) {
+	if caseSensitive {
+		character, ok = collection.reference[search]
+	} else {
+		character, ok = collection.referenceLower[strings.ToLower(search)]
+	}
+	return
+}
+
+// CharacterFriendly returns a CharacterInfo by friendly name.
+func (collection CharacterCollection) CharacterFriendly(friendly string) (character CharacterInfo, ok bool) {
+	character, ok = collection.referenceFriendly[strings.ToLower(friendly)]
+	return
+}
+
+// CharacterFullName returns a CharacterInfo by full name.
+func (collection CharacterCollection) CharacterFullName(name string) (character CharacterInfo, ok bool) {
+	return collection.Character(strings.Replace(name, " ", "_", -1), false)
+}
+
 // CharacterInfo represents information on a character.
 type CharacterInfo struct {
+	SearchString string
 	Color        int
 	FriendlyName string
-	SearchString string
 }
 
 // CharacterArt represents a piece of artwork of a character.
 type CharacterArt struct {
 	ImageURL  string
 	SourceURL string
-	Character CharacterInfo
 }
