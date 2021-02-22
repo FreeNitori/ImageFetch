@@ -49,18 +49,6 @@ func FetchRandomPost(posts BoardPosts) (post BoardPost) {
 	return
 }
 
-// FetchRandomCharacter fetches a random character from a collection.
-func FetchRandomCharacter(collection CharacterCollection) (CharacterInfo, error) {
-	switch len(collection.characters) {
-	case 0:
-		return CharacterInfo{}, ErrNoArtAvailable
-	case 1:
-		return collection.characters[0], nil
-	}
-	rand.Seed(time.Now().UnixNano())
-	return collection.characters[rand.Intn(len(collection.characters)-1)], nil
-}
-
 // Fetch fetches a random art of a character.
 func Fetch(query string, character CharacterInfo) (CharacterArt, error) {
 	var (
@@ -76,18 +64,19 @@ func Fetch(query string, character CharacterInfo) (CharacterArt, error) {
 }
 
 // FetchRandom fetches art of a random character in a collection.
-func FetchRandom(query string, collection CharacterCollection) (CharacterArt, error) {
+func FetchRandom(query string, collection CharacterCollection) (CharacterInfo, CharacterArt, error) {
 	var (
 		character CharacterInfo
 		posts     BoardPosts
+		ok        bool
 	)
-	character, err = FetchRandomCharacter(collection)
-	if err != nil {
-		return CharacterArt{}, err
+	character, ok = collection.CharacterRandom()
+	if !ok {
+		return CharacterInfo{}, CharacterArt{}, ErrNoArtAvailable
 	}
 	posts, err = FetchPosts(query, character)
 	if err != nil {
-		return CharacterArt{}, err
+		return CharacterInfo{}, CharacterArt{}, err
 	}
-	return FetchRandomPost(posts).Art(), nil
+	return character, FetchRandomPost(posts).Art(), nil
 }

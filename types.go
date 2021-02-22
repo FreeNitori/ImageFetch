@@ -1,6 +1,10 @@
 package imagefetch
 
-import "strings"
+import (
+	"math/rand"
+	"strings"
+	"time"
+)
 
 // CharacterCollection represents a collection of character information.
 type CharacterCollection struct {
@@ -34,6 +38,18 @@ func (collection CharacterCollection) CharacterFriendly(friendly string) (charac
 // CharacterFullName returns a CharacterInfo by full name.
 func (collection CharacterCollection) CharacterFullName(name string) (character CharacterInfo, ok bool) {
 	return collection.Character(strings.Replace(name, " ", "_", -1), false)
+}
+
+// CharacterRandom returns a random CharacterInfo.
+func (collection CharacterCollection) CharacterRandom() (character CharacterInfo, ok bool) {
+	switch len(collection.characters) {
+	case 0:
+		return CharacterInfo{}, false
+	case 1:
+		return collection.characters[0], true
+	}
+	rand.Seed(time.Now().UnixNano())
+	return collection.characters[rand.Intn(len(collection.characters)-1)], true
 }
 
 // CharacterInfo represents information on a character.

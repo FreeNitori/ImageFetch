@@ -5,10 +5,12 @@ import (
 )
 
 func TestTouhouFetchRandom(t *testing.T) {
-	art, err := FetchRandom(SafeTouhouQuery, Touhou)
+	character, art, err := FetchRandom(SafeTouhouQuery, Touhou)
 	if err != nil {
 		t.Fatalf("Unable to fetch random art, %s", err)
 	}
+	t.Logf("Character friendly name: %s", character.FriendlyName)
+	t.Logf("Character search string: %s", character.SearchString)
 	t.Logf("Image URL: %s", art.ImageURL)
 	t.Logf("Source URL: %s", art.SourceURL)
 }
