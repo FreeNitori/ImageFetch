@@ -1,3 +1,3 @@
-module git.randomchars.net/FreeNitori/ImageFetch
+module git.randomchars.net/freenitori/imagefetch
 
 go 1.15
